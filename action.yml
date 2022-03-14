@@ -138,7 +138,7 @@ runs:
       env:
         REF: ${{ inputs.ref }}
         REPOSITORY: ${{ inputs.repository }}
-        GH_TOKEN: ${{ inputs.token }}
+        TOKEN: ${{ inputs.token }}
         DEFAULT_BRANCH: ${{ inputs.default_branch }}
       working-directory: ${{ inputs.path }}
       shell: bash
