@@ -74,18 +74,13 @@ runs:
         $GIT version
         echo "::endgroup::"
       shell: bash
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '14'
     - name: Initializing the repository
       run: |
         echo "::group::Initializing the repository"
         git config --global init.defaultBranch "${DEFAULT_BRANCH}"
         $GIT init
         echo "repository initialized"
-        echo "${TOKEN}" | gh auth login --with-token
-        echo "logged in to github"
-        $GIT remote add origin https://x-access-token:$(node -e "process.stdout.write(encodeURIComponent('${TOKEN}'))")@}github.com/${REPOSITORY}
+        $GIT remote add origin "https://x-access-token:${TOKEN}@github.com/${REPOSITORY}"
         echo "added remote"
         #$GIT remote add origin ${GITHUB_SERVER_URL}/${REPOSITORY}
         $GIT remote -v
@@ -135,7 +130,7 @@ runs:
           if [ "$REPOSITORY" == "$GITHUB_REPOSITORY" ]; then
             REF="${GITHUB_REF#refs/heads/}"
           else
-            REF=$(gh api repos/$REPOSITORY --jq '.default_branch')
+            REF=${DEFAULT_BRANCH}
           fi
         fi
         $GIT -c protocol.version=2 fetch --no-tags --prune --progress --depth=1 origin +${REF}:refs/remotes/origin/${REF}
@@ -144,6 +139,7 @@ runs:
         REF: ${{ inputs.ref }}
         REPOSITORY: ${{ inputs.repository }}
         GH_TOKEN: ${{ inputs.token }}
+        DEFAULT_BRANCH: ${{ inputs.default_branch }}
       working-directory: ${{ inputs.path }}
       shell: bash
 
@@ -156,7 +152,7 @@ runs:
           if [ "$REPOSITORY" == "$GITHUB_REPOSITORY" ]; then
             REF="${GITHUB_REF#refs/heads/}"
           else
-            REF=$(gh api repos/$REPOSITORY --jq '.default_branch')
+            REF=${DEFAULT_BRANCH}
           fi
         fi
         echo $REF
@@ -166,6 +162,7 @@ runs:
         REF: ${{ inputs.ref }}
         REPOSITORY: ${{ inputs.repository }}
         GH_TOKEN: ${{ inputs.token }}
+        DEFAULT_BRANCH: ${{ inputs.default_branch }}
       working-directory: ${{ inputs.path }}
       shell: bash
 
