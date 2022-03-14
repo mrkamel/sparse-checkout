@@ -80,7 +80,7 @@ runs:
         git config --global init.defaultBranch "${DEFAULT_BRANCH}"
         $GIT init
         echo "repository initialized"
-        $GIT remote add origin "${TOKEN}@github.com/${REPOSITORY}"
+        $GIT remote add origin "${TOKEN}@github.com:${REPOSITORY}"
         echo "added remote"
         #$GIT remote add origin ${GITHUB_SERVER_URL}/${REPOSITORY}
         $GIT remote -v
