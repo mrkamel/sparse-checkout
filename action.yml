@@ -83,7 +83,7 @@ runs:
         git config --global init.defaultBranch "${DEFAULT_BRANCH}"
         $GIT init
         echo "repository initialized"
-        gh auth login --with-token "${TOKEN}"
+        echo "${TOKEN}" | gh auth login --with-token
         echo "logged in to github"
         $GIT remote add origin https://x-access-token:$(node -e "process.stdout.write(encodeURIComponent('${TOKEN}'))")@}github.com/${REPOSITORY}
         echo "added remote"
